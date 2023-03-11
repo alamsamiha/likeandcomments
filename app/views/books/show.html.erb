@@ -54,18 +54,32 @@
         </tbody>
       </table>
 
-      <div>
+      <table class = "comment-table"
       <% @book.book_comments.each do |book_comment| %>
-        <%= image_tag book_comment.user.get_profile_image(100,100) %>
-        <%= book_comment.user.name %>
-        <%= book_comment.created_at.strftime('%Y/%m/%d') %>
+
+        <tr>
+        <td>
+        <%= link_to user_path(@user) do %>
+        <%= image_tag book_comment.user.get_profile_image(100,100) %><br>
+
+          <%= book_comment.user.name %>
+        <% end %>
+        </td>
+        <td>
+          <%= book_comment.comment %>
+        </td>
+        <!-- %= book_comment.created_at.strftime('%Y/%m/%d') % -->
 
         <% if book_comment.user == current_user %>
-          <%= link_to "削除", book_book_comment_path(book_comment.book, book_comment), method: :delete, class: "btn btn-sm btn-danger" %>
+          <td>
+          <%= link_to "Destroy", book_book_comment_path(book_comment.book, book_comment), method: :delete, class: "btn btn-sm btn-danger" %>
+          </td>
         <% end %>
+        </tr>
+        <br>
 
       <% end %>
-      </div>
+      </table>
 
       <div>
         <%= form_with model: [@book, @book_comment] do |f| %>
